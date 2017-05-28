@@ -32,22 +32,22 @@ public class MyAIController extends CarController{
 			wallFollower.update(delta);
 		}
 		else if (state.equals("Reverse")){
-			Reverse.update(this);
+			Reverse.update(this, delta);
 		}
 		else if(state.equals("3PointTurn")){
-			ThreePointTurn.update(this);
+			ThreePointTurn.update(this, delta);
 		}
 		else if(state.equals("UTurn")){
-			UTurn.update();
+			UTurn.update(this, delta);
 		}
 		else if (state.equals("Lava")){
-			LavaHandler.update(this);
+			LavaHandler.update(this, delta);
 		}
 		else if(state.equals("Mud")){
-			MudHandler.update(this);
+			MudHandler.update(this, delta);
 		}
 		else if(state.equals("Grass")){
-			GrassHandler.update();
+			GrassHandler.update(this, delta);
 		}
 		
 	}
