@@ -88,9 +88,11 @@ public class MyAIController extends CarController{
 				System.out.println("Grass");
 				this.state = "Grass";
 				}
-				
+					
+		}
+		
+		if(getTileAhead().getName().equals("Wall") || loop == 1 && getTileAhead().getName().equals("Trap")){
 			
-				
 			
 		}
 		
