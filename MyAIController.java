@@ -35,7 +35,7 @@ public class MyAIController extends CarController{
 			Reverse.update(this);
 		}
 		else if(state.equals("3PointTurn")){
-			3PointTurn.update(this);
+			ThreePointTurn.update(this);
 		}
 		else if(state.equals("UTurn")){
 			UTurn.update();
