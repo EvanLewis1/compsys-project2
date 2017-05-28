@@ -3,11 +3,15 @@ package mycontroller;
 
 import java.util.HashMap;
 
+import tiles.GrassTrap;
 import controller.CarController;
+import tiles.LavaTrap;
 import tiles.MapTile;
+import tiles.MudTrap;
 import utilities.Coordinate;
 import world.Car;
 import world.WorldSpatial;
+import world.WorldSpatial.Direction;
 
 public class MyAIController extends CarController{
 	WallFollower wallFollower;
@@ -34,7 +38,7 @@ public class MyAIController extends CarController{
 			
 		}
 		
-		//resetstate();
+		resetstate();
 		
 		if(state.equals("wallFollower")){
 			wallFollower.update(delta);
@@ -60,21 +64,71 @@ public class MyAIController extends CarController{
 		
 	}
 
-	/*private void resetstate() {
-		
+	private void resetstate() {
 		
 		HashMap<Coordinate, MapTile> currentView = getView();
-		Coordinate currentPosition = new Coordinate(getPosition());
-				for(int i = 0; i <= 2; i++){
-					MapTile tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y-i));
-					if(tile.getName().equals("Wall")|| loop == 1 && tile.getName().equals("Trap")){
-						
+
+		if (!checkWallAhead(this.getOrientation(), currentView)){
+			this.state = "wallFollower";
+			
+		}
+		
+		if(loop > 1){
+			if (getTileAhead() instanceof LavaTrap){
+				System.out.println("Lava");
+				this.state = "Lava";
+				
+			}
+			else if (getTileAhead() instanceof MudTrap){
+				System.out.println("Mud");
+				this.state = "Mud";
+				
+			}
+			else if (getTileAhead() instanceof GrassTrap){
+				System.out.println("Grass");
+				this.state = "Grass";
+				}
+				
+			
+				
+			
+		}
 		
 		
-		if currentView.get(key)
-		
-	}*/
+	}
 	
+	private MapTile getTileAhead() {
+		Direction orientation = this.getOrientation();
+		HashMap<Coordinate, MapTile> currentView = this.getView();
+		Coordinate currentPosition;
+		switch(orientation){
+		case EAST:
+			currentPosition = new Coordinate(this.getPosition());
+			currentPosition.x = currentPosition.x + 1;
+			return getTile(currentView, currentPosition);
+		case NORTH:
+			currentPosition = new Coordinate(this.getPosition());
+			currentPosition.y = currentPosition.y - 1;
+			return getTile(currentView, currentPosition);
+		case SOUTH:
+			currentPosition = new Coordinate(this.getPosition());
+			currentPosition.y = currentPosition.y + 1;
+			return getTile(currentView, currentPosition);
+		case WEST:
+			currentPosition = new Coordinate(this.getPosition());
+			currentPosition.x = currentPosition.x-1;
+			return getTile(currentView, currentPosition);
+		default:
+			return null;
+		
+		}
+	}
+
+	private MapTile getTile(HashMap<Coordinate, MapTile> currentView, Coordinate currentPosition) {
+		MapTile tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y));
+		return tile;
+	}
+
 	/**
 	 * Check if you have a wall in front of you!
 	 * @param orientation the orientation we are in based on WorldSpatial
