@@ -330,7 +330,8 @@ public class WallFollower implements TraversalStrategy{
 		Coordinate currentPosition = new Coordinate(controller.getPosition());
 		for(int i = 0; i <= wallSensitivity; i++){
 			MapTile tile = currentView.get(new Coordinate(currentPosition.x+i, currentPosition.y));
-			if(tile.getName().equals("Wall")){
+		//	System.out.println(tile.getName());
+			if(tile.getName().equals("Wall") || controller.loop == 1 && tile.getName().equals("Trap")){// || loop == 1 && tile.){
 				return true;
 			}
 		}
@@ -342,7 +343,7 @@ public class WallFollower implements TraversalStrategy{
 		Coordinate currentPosition = new Coordinate(controller.getPosition());
 		for(int i = 0; i <= wallSensitivity; i++){
 			MapTile tile = currentView.get(new Coordinate(currentPosition.x-i, currentPosition.y));
-			if(tile.getName().equals("Wall")){
+			if(tile.getName().equals("Wall") || controller.loop == 1 && tile.getName().equals("Trap")){
 				return true;
 			}
 		}
@@ -354,7 +355,7 @@ public class WallFollower implements TraversalStrategy{
 		Coordinate currentPosition = new Coordinate(controller.getPosition());
 		for(int i = 0; i <= wallSensitivity; i++){
 			MapTile tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y+i));
-			if(tile.getName().equals("Wall")){
+			if(tile.getName().equals("Wall")|| (controller.loop == 1 && tile.getName().equals("Trap"))){
 				return true;
 			}
 		}
@@ -366,7 +367,7 @@ public class WallFollower implements TraversalStrategy{
 		Coordinate currentPosition = new Coordinate(controller.getPosition());
 		for(int i = 0; i <= wallSensitivity; i++){
 			MapTile tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y-i));
-			if(tile.getName().equals("Wall")){
+			if(tile.getName().equals("Wall")|| controller.loop == 1 && tile.getName().equals("Trap")){
 				return true;
 			}
 		}
