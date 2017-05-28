@@ -52,7 +52,7 @@ public class WallFollower implements TraversalStrategy{
 				lastTurnDirection = WorldSpatial.RelativeDirection.LEFT;
 				applyLeftTurn(controller.getOrientation(),delta);
 			}
-			if(checkNorth(currentView)){
+			if(controller.checkNorth(currentView)){
 				// Turn right until we go back to east!
 				if(!controller.getOrientation().equals(WorldSpatial.Direction.EAST)){
 					lastTurnDirection = WorldSpatial.RelativeDirection.RIGHT;
@@ -88,7 +88,7 @@ public class WallFollower implements TraversalStrategy{
 					controller.applyForwardAcceleration();
 				}
 				// If there is wall ahead, turn right!
-				if(checkWallAhead(controller.getOrientation(),currentView)){
+				if(controller.checkWallAhead(controller.getOrientation(),currentView)){
 					lastTurnDirection = WorldSpatial.RelativeDirection.RIGHT;
 					isTurningRight = true;				
 					
@@ -271,27 +271,7 @@ public class WallFollower implements TraversalStrategy{
 		
 	}
 
-	/**
-	 * Check if you have a wall in front of you!
-	 * @param orientation the orientation we are in based on WorldSpatial
-	 * @param currentView what the car can currently see
-	 * @return
-	 */
-	private boolean checkWallAhead(WorldSpatial.Direction orientation, HashMap<Coordinate, MapTile> currentView){
-		switch(orientation){
-		case EAST:
-			return checkEast(currentView);
-		case NORTH:
-			return checkNorth(currentView);
-		case SOUTH:
-			return checkSouth(currentView);
-		case WEST:
-			return checkWest(currentView);
-		default:
-			return false;
-		
-		}
-	}
+
 	
 	/**
 	 * Check if the wall is on your left hand side given your orientation
@@ -303,13 +283,13 @@ public class WallFollower implements TraversalStrategy{
 		
 		switch(orientation){
 		case EAST:
-			return checkNorth(currentView);
+			return controller.checkNorth(currentView);
 		case NORTH:
-			return checkWest(currentView);
+			return controller.checkWest(currentView);
 		case SOUTH:
-			return checkEast(currentView);
+			return controller.checkEast(currentView);
 		case WEST:
-			return checkSouth(currentView);
+			return controller.checkSouth(currentView);
 		default:
 			return false;
 		}
@@ -317,63 +297,6 @@ public class WallFollower implements TraversalStrategy{
 	}
 	
 
-	/**
-	 * Method below just iterates through the list and check in the correct coordinates.
-	 * i.e. Given your current position is 10,10
-	 * checkEast will check up to wallSensitivity amount of tiles to the right.
-	 * checkWest will check up to wallSensitivity amount of tiles to the left.
-	 * checkNorth will check up to wallSensitivity amount of tiles to the top.
-	 * checkSouth will check up to wallSensitivity amount of tiles below.
-	 */
-	public boolean checkEast(HashMap<Coordinate, MapTile> currentView){
-		// Check tiles to my right
-		Coordinate currentPosition = new Coordinate(controller.getPosition());
-		for(int i = 0; i <= wallSensitivity; i++){
-			MapTile tile = currentView.get(new Coordinate(currentPosition.x+i, currentPosition.y));
-		//	System.out.println(tile.getName());
-			if(tile.getName().equals("Wall") || controller.loop == 1 && tile.getName().equals("Trap")){// || loop == 1 && tile.){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean checkWest(HashMap<Coordinate,MapTile> currentView){
-		// Check tiles to my left
-		Coordinate currentPosition = new Coordinate(controller.getPosition());
-		for(int i = 0; i <= wallSensitivity; i++){
-			MapTile tile = currentView.get(new Coordinate(currentPosition.x-i, currentPosition.y));
-			if(tile.getName().equals("Wall") || controller.loop == 1 && tile.getName().equals("Trap")){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean checkNorth(HashMap<Coordinate,MapTile> currentView){
-		// Check tiles to towards the top
-		Coordinate currentPosition = new Coordinate(controller.getPosition());
-		for(int i = 0; i <= wallSensitivity; i++){
-			MapTile tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y+i));
-			if(tile.getName().equals("Wall")|| (controller.loop == 1 && tile.getName().equals("Trap"))){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean checkSouth(HashMap<Coordinate,MapTile> currentView){
-		// Check tiles towards the bottom
-		Coordinate currentPosition = new Coordinate(controller.getPosition());
-		for(int i = 0; i <= wallSensitivity; i++){
-			MapTile tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y-i));
-			if(tile.getName().equals("Wall")|| controller.loop == 1 && tile.getName().equals("Trap")){
-				return true;
-			}
-		}
-		return false;
-	}
-	
 }
 	
 	
