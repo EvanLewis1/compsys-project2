@@ -68,6 +68,7 @@ public class MyAIController extends CarController {
 
 		if (!checkWallAhead(this.getOrientation(), currentView) || leftTile.equals("Road")) {
 			this.state = "wallFollower";
+			
 
 			if (loop > 1) {
 				if (getTileAhead() instanceof LavaTrap) {
