@@ -31,6 +31,8 @@ public class MyAIController extends CarController {
 
 	@Override
 	public void update(float delta) {
+		System.out.println(state);
+		
 		if (loopFinished()) {
 			loop++;
 			System.out.println(loop);
@@ -60,7 +62,10 @@ public class MyAIController extends CarController {
 	private void resetstate() {
 
 		HashMap<Coordinate, MapTile> currentView = getView();
-
+		
+		String leftTile = getTileLeft().getName();
+		String rightTile = getTileRight().getName();
+		
 		if (!checkWallAhead(this.getOrientation(), currentView)) {
 			this.state = "wallFollower";
 
@@ -68,15 +73,15 @@ public class MyAIController extends CarController {
 
 		if (loop > 1) {
 			if (getTileAhead() instanceof LavaTrap) {
-				System.out.println("Lava");
+				System.out.println("Lava ahead");
 				this.state = "Lava";
 
 			} else if (getTileAhead() instanceof MudTrap) {
-				System.out.println("Mud");
+				System.out.println("Mud ahead");
 				this.state = "Mud";
 
 			} else if (getTileAhead() instanceof GrassTrap) {
-				System.out.println("Grass");
+				System.out.println("Grass ahead");
 				this.state = "Grass";
 			}
 
@@ -95,7 +100,7 @@ public class MyAIController extends CarController {
 			}
 			if (loop == 1) {
 				if (getTileAhead().getName().equals("Wall")) {
-					if (getTileLeft().getName().equals("Wall") || getTileRight().getName().equals("Wall")) {
+					if ((leftTile.equals("Wall") && !rightTile.equals("Road"))|| rightTile.equals("Wall") && !rightTile.equals("Road")) {
 						this.state = "ThreePointTurn";
 
 					}
@@ -114,7 +119,7 @@ public class MyAIController extends CarController {
 		switch (orientation) {
 		case EAST:
 			currentPosition = new Coordinate(this.getPosition());
-			currentPosition.y = currentPosition.y + 1;
+			currentPosition.y = currentPosition.y - 1;
 			return getTile(currentView, currentPosition);
 		case NORTH:
 			currentPosition = new Coordinate(this.getPosition());
@@ -126,7 +131,7 @@ public class MyAIController extends CarController {
 			return getTile(currentView, currentPosition);
 		case WEST:
 			currentPosition = new Coordinate(this.getPosition());
-			currentPosition.y = currentPosition.y - 1;
+			currentPosition.y = currentPosition.y + 1;
 			return getTile(currentView, currentPosition);
 		default:
 			return null;
@@ -140,7 +145,7 @@ public class MyAIController extends CarController {
 		switch (orientation) {
 		case EAST:
 			currentPosition = new Coordinate(this.getPosition());
-			currentPosition.y = currentPosition.y - 1;
+			currentPosition.y = currentPosition.y + 1;
 			return getTile(currentView, currentPosition);
 		case NORTH:
 			currentPosition = new Coordinate(this.getPosition());
@@ -152,7 +157,7 @@ public class MyAIController extends CarController {
 			return getTile(currentView, currentPosition);
 		case WEST:
 			currentPosition = new Coordinate(this.getPosition());
-			currentPosition.y = currentPosition.y + 1;
+			currentPosition.y = currentPosition.y - 1;
 			return getTile(currentView, currentPosition);
 		default:
 			return null;
@@ -170,11 +175,11 @@ public class MyAIController extends CarController {
 			return getTile(currentView, currentPosition);
 		case NORTH:
 			currentPosition = new Coordinate(this.getPosition());
-			currentPosition.y = currentPosition.y - 1;
+			currentPosition.y = currentPosition.y + 1;
 			return getTile(currentView, currentPosition);
 		case SOUTH:
 			currentPosition = new Coordinate(this.getPosition());
-			currentPosition.y = currentPosition.y + 1;
+			currentPosition.y = currentPosition.y - 1;
 			return getTile(currentView, currentPosition);
 		case WEST:
 			currentPosition = new Coordinate(this.getPosition());
@@ -217,6 +222,7 @@ public class MyAIController extends CarController {
 	}
 
 	private boolean loopFinished() {
+		System.out.println(this.getPosition());
 		if (!this.prevPosition.equals(this.getPosition())) {
 			if (this.startPosition.equals(this.getPosition())) {
 				this.prevPosition = this.getPosition();
