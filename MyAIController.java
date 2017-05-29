@@ -115,6 +115,136 @@ public class MyAIController extends CarController {
 		}
 
 	}
+	
+	private boolean checkUTurn(){
+		Direction orientation = this.getOrientation();
+		HashMap<Coordinate, MapTile> currentView = this.getView();
+		Coordinate currentPosition = new Coordinate(this.getPosition());
+		switch(orientation){
+		case EAST:
+			//Loop checks all squares in front of the car to a distance of wallSensitivity + 1 (allows time to slow down and turn) 
+			for(int i = 1; i <= wallSensitivity + 1; i++){
+				MapTile tile = currentView.get(new Coordinate(currentPosition.x + i, currentPosition.y - 1));
+				if(i == wallSensitivity + 1){
+					for(int j = 0; j < 2; j ++){
+						MapTile endTile = currentView.get(new Coordinate(currentPosition.x + i, currentPosition.y + j));
+						if(!endTile.getName().equals("Wall")){
+							return(false);
+						}
+					}
+				}
+				else{
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+							return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x + i, currentPosition.y));
+					if(!tile.getName().equals("Road")){
+						return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x + i, currentPosition.y + 1));
+					if(!tile.getName().equals("Road")){
+						return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x + i, currentPosition.y + 2));
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+						return(false);
+					}
+				}
+			}
+			return(true);
+		case NORTH:
+			for(int i = 1; i <= wallSensitivity + 1; i++){
+				MapTile tile = currentView.get(new Coordinate(currentPosition.x - 1, currentPosition.y - i));
+				if(i == wallSensitivity + 1){
+					for(int j = 0; j < 2; j ++){
+						MapTile endTile = currentView.get(new Coordinate(currentPosition.x + j, currentPosition.y - i));
+						if(!endTile.getName().equals("Wall")){
+							return(false);
+						}
+					}
+				}
+				else{
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+							return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y - i));
+					if(!tile.getName().equals("Road")){
+						return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x + 1, currentPosition.y - i));
+					if(!tile.getName().equals("Road")){
+						return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x + 2, currentPosition.y - i));
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+						return(false);
+					}
+				}
+			}
+			return(true);
+		case SOUTH:
+			for(int i = 1; i <= wallSensitivity + 1; i++){
+				MapTile tile = currentView.get(new Coordinate(currentPosition.x + 1, currentPosition.y + i));
+				if(i == wallSensitivity + 1){
+					for(int j = 0; j < 2; j ++){
+						MapTile endTile = currentView.get(new Coordinate(currentPosition.x - j, currentPosition.y + i));
+						if(!endTile.getName().equals("Wall")){
+							return(false);
+						}
+					}
+				}
+				else{
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+							return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y + i));
+					if(!tile.getName().equals("Road")){
+						return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x - 1, currentPosition.y + i));
+					if(!tile.getName().equals("Road")){
+						return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x - 2, currentPosition.y + i));
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+						return(false);
+					}
+				}
+			}
+			return(true);
+		case WEST:
+			for(int i = 1; i <= wallSensitivity + 1; i++){
+				MapTile tile = currentView.get(new Coordinate(currentPosition.x - i, currentPosition.y + 1));
+				if(i == wallSensitivity + 1){
+					for(int j = 0; j < 2; j ++){
+						MapTile endTile = currentView.get(new Coordinate(currentPosition.x - i, currentPosition.y - j));
+						if(!endTile.getName().equals("Wall")){
+							return(false);
+						}
+					}
+				}
+				else{
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+							return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x - i, currentPosition.y));
+					if(!tile.getName().equals("Road")){
+						return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x - i, currentPosition.y - 1));
+					if(!tile.getName().equals("Road")){
+						return(false);
+					}
+					tile = currentView.get(new Coordinate(currentPosition.x - i, currentPosition.y - 2));
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+						return(false);
+					}
+				}
+			}
+			return(true);
+		}
+		return(false);
+	}
 
 	private MapTile getTileRight() {
 		Direction orientation = this.getOrientation();
