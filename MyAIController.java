@@ -134,7 +134,7 @@ public class MyAIController extends CarController {
 					}
 				}
 				else{
-					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap") && loop == 1){
 							return(false);
 					}
 					tile = currentView.get(new Coordinate(currentPosition.x + i, currentPosition.y));
@@ -146,7 +146,7 @@ public class MyAIController extends CarController {
 						return(false);
 					}
 					tile = currentView.get(new Coordinate(currentPosition.x + i, currentPosition.y + 2));
-					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap") && loop == 1){
 						return(false);
 					}
 				}
@@ -164,7 +164,7 @@ public class MyAIController extends CarController {
 					}
 				}
 				else{
-					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap") && loop == 1){
 							return(false);
 					}
 					tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y - i));
@@ -176,7 +176,7 @@ public class MyAIController extends CarController {
 						return(false);
 					}
 					tile = currentView.get(new Coordinate(currentPosition.x + 2, currentPosition.y - i));
-					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap") && loop == 1){
 						return(false);
 					}
 				}
@@ -194,7 +194,7 @@ public class MyAIController extends CarController {
 					}
 				}
 				else{
-					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap") && loop == 1){
 							return(false);
 					}
 					tile = currentView.get(new Coordinate(currentPosition.x, currentPosition.y + i));
@@ -206,7 +206,7 @@ public class MyAIController extends CarController {
 						return(false);
 					}
 					tile = currentView.get(new Coordinate(currentPosition.x - 2, currentPosition.y + i));
-					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap") && loop == 1){
 						return(false);
 					}
 				}
@@ -224,7 +224,7 @@ public class MyAIController extends CarController {
 					}
 				}
 				else{
-					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap") && loop == 1){
 							return(false);
 					}
 					tile = currentView.get(new Coordinate(currentPosition.x - i, currentPosition.y));
@@ -236,7 +236,7 @@ public class MyAIController extends CarController {
 						return(false);
 					}
 					tile = currentView.get(new Coordinate(currentPosition.x - i, currentPosition.y - 2));
-					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap")){
+					if(!tile.getName().equals("Wall") || !tile.getName().equals("Trap") && loop == 1){
 						return(false);
 					}
 				}
