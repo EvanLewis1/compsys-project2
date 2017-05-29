@@ -32,7 +32,7 @@ public class MyAIController extends CarController {
 	@Override
 	public void update(float delta) {
 		System.out.println(state);
-		
+
 		if (loopFinished()) {
 			loop++;
 			System.out.println(loop);
@@ -62,10 +62,10 @@ public class MyAIController extends CarController {
 	private void resetstate() {
 
 		HashMap<Coordinate, MapTile> currentView = getView();
-		
+
 		String leftTile = getTileLeft().getName();
 		String rightTile = getTileRight().getName();
-		
+
 		if (!checkWallAhead(this.getOrientation(), currentView)) {
 			this.state = "wallFollower";
 
@@ -92,15 +92,15 @@ public class MyAIController extends CarController {
 
 			this.state = "UTurn";
 
-			if (getTileLeft().getName().equals("Wall")
-					|| loop == 1 && getTileLeft().getName().equals("Trap") && getTileRight().getName().equals("Wall")
-					|| loop == 1 && getTileRight().getName().equals("Trap")) {
+			if ((leftTile.equals("Wall") || loop == 1 && leftTile.equals("Trap"))
+					&& (rightTile.equals("Wall") || loop == 1 && rightTile.equals("Trap"))) {
 				this.state = "Reverse";
 
 			}
 			if (loop == 1) {
 				if (getTileAhead().getName().equals("Wall")) {
-					if ((leftTile.equals("Wall") && !rightTile.equals("Road"))|| rightTile.equals("Wall") && !rightTile.equals("Road")) {
+					if ((leftTile.equals("Wall") && !rightTile.equals("Road"))
+							|| rightTile.equals("Wall") && !rightTile.equals("Road")) {
 						this.state = "ThreePointTurn";
 
 					}
