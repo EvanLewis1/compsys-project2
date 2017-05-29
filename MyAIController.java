@@ -66,10 +66,7 @@ public class MyAIController extends CarController {
 		String leftTile = getTileLeft().getName();
 		String rightTile = getTileRight().getName();
 
-		if (!checkWallAhead(this.getOrientation(), currentView)) {
-			this.state = "wallFollower";
-
-		}
+		
 
 		if (loop > 1) {
 			if (getTileAhead() instanceof LavaTrap) {
@@ -87,6 +84,7 @@ public class MyAIController extends CarController {
 
 		}
 		// Surrounded by walls dead end -> reverse
+		this.wallSensitivity = 1;
 		if (getTileAhead().getName().equals("Wall") || loop == 1 && getTileAhead().getName().equals("Trap")) {
 			// Choose escape method
 
@@ -109,7 +107,16 @@ public class MyAIController extends CarController {
 			}
 
 		}
+		this.wallSensitivity = 2;
 
+		
+		
+		if (!checkWallAhead(this.getOrientation(), currentView) || leftTile.equals("Road")) {
+			System.out.println("Free path");
+			this.state = "wallFollower";
+
+		}
+		
 	}
 
 	private MapTile getTileRight() {

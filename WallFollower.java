@@ -12,7 +12,6 @@ public class WallFollower implements TraversalStrategy{
 
 	
 	// How many minimum units the wall is away from the player.
-	private int wallSensitivity = 2;
 	
 	private boolean isFollowingWall = false; // This is initialised when the car sticks to a wall.
 	private WorldSpatial.RelativeDirection lastTurnDirection = null; // Shows the last turn direction the car takes.
