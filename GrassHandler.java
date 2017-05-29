@@ -6,5 +6,5 @@ public class GrassHandler  implements TrapHandler{
 		controller.applyForwardAcceleration();
 		
 	}
-
+	
 }

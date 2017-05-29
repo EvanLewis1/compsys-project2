@@ -31,7 +31,7 @@ public class MyAIController extends CarController {
 
 	@Override
 	public void update(float delta) {
-		System.out.println(state);
+		//System.out.println(state);
 
 		if (loopFinished()) {
 			loop++;
@@ -78,6 +78,9 @@ public class MyAIController extends CarController {
 				} else if (getTileAhead() instanceof MudTrap) {
 					System.out.println("Mud ahead");
 					this.state = "Mud";
+					if (!getTile(currentView, new Coordinate(getPosition())).equals("Mud")) {
+						MudHandler.setDir(getAngle());
+					}
 
 				} else if (getTileAhead() instanceof GrassTrap) {
 					System.out.println("Grass ahead");
@@ -429,4 +432,7 @@ public class MyAIController extends CarController {
 		return false;
 	}
 
+	public double tileDistance(Coordinate tile1, Coordinate tile2) {
+		return Math.sqrt((tile1.x-tile2.x)*(tile1.x-tile2.x) + (tile1.y-tile2.y)*(tile1.y-tile2.y));
+	}
 }
